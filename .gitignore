@@ -1,0 +1,8 @@
+.idea
+target
+/target
+/.idea
+config.yml
+dependency-reduced-pom.xml
+out
+/out/
