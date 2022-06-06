@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
  */
 public class LoggingManager {
 
-    private static final Logger logger = LoggerFactory.getLogger("Kiafumi");
+    private static final Logger logger = LoggerFactory.getLogger("Jasper");
 
     // Static logging reference
     public static void debug(String str) { logger.debug(str); }

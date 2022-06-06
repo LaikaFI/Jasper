@@ -47,10 +47,10 @@ public class CommandRegistrar {
      */
     public List<CommandClass> getCommandClasses() {
         try {
-            // TODO have this check the classpath that we're under and have it scan *that* instead of hard-coding it to only be moe.oko.Kiafumi path.
-            var classes = findAllClassesContaining("moe.oko.Kiafumi.command");
+            // TODO have this check the classpath that we're under and have it scan *that* instead of hard-coding it to only be a certain path.
+            var classes = findAllClassesContaining("link.alpinia.Jasper.command");
             List<CommandClass> commands = new ArrayList<>();
-            debug("Discovered " + classes.size() + " classes containing moe.oko.Kiafumi.command in package class.");
+            debug("Discovered " + classes.size() + " classes containing link.alpinia.Jasper.command in package class.");
             for (Class clazz : classes) {
                 for (Constructor cnstr : clazz.getConstructors()) {
                     try {
