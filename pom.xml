@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>link.alpine</groupId>
+    <groupId>link.alpinia</groupId>
     <artifactId>Jasper</artifactId>
     <name>Jasper</name>
     <version>0.9.0-pre</version>
@@ -13,7 +13,7 @@
 
     <properties>
         <project.jdk.version>16</project.jdk.version>
-        <mainclass>link.alpinia.Jasper</mainclass>
+        <mainclass>link.alpinia.Jasper.Jasper</mainclass>
     </properties>
 
     <!-- JDA (https://mvnrepository.com/artifact/net.dv8tion/JDA) -->
