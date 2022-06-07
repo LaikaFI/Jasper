@@ -81,9 +81,9 @@ public class Server {
      */
     public String getOpts() {
         return """
-                welcomeChannel - the channel to send welcome messages to
-                modChannel - the channel to send moderation logs to
-                joinRole - the role to apply to new members who join this guild""";
+                welcomeChannel - the channel to send welcome messages to (id)
+                modChannel - the channel to send moderation logs to (id)
+                joinRole - the role to apply to new members who join this guild (id)""";
     }
 
     /**
@@ -139,7 +139,7 @@ public class Server {
                         return "Successfully set joinRole ID to " + value;
                     }
                 } catch (Exception ex) {
-                    return "Bad Value";
+                    return "That is not a valid role ID";
                 }
             case "welcomechannel":
                 try {
@@ -150,18 +150,18 @@ public class Server {
                         return "Successfully set welcomeChannel ID to " + value;
                     }
                 } catch (Exception ex) {
-                    return "Bad Value";
+                    return "That is not a valid channel ID";
                 }
             case "modchannel":
                 try {
-                    if(Jasper.JDA.getRoleById(value) == null) {
-                        return "That role ID is invalid.";
+                    if(Jasper.JDA.getTextChannelById(value) == null) {
+                        return "That channel ID is invalid.";
                     } else {
                         modChannel = value;
                         return "Successfully set modChannel ID to " + modChannel;
                     }
                 } catch (Exception ex) {
-                    return "Bad Value";
+                    return "That is not a valid channel ID";
                 }
             default:
                 return "INVALID setting name.";

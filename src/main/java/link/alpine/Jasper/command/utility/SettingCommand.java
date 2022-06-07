@@ -1,15 +1,16 @@
 package link.alpine.Jasper.command.utility;
 
 import link.alpine.Jasper.Jasper;
-import link.alpine.Jasper.command.CommandClass;
 import link.alpine.Jasper.model.Server;
-import link.alpine.Jasper.util.CommandInfo;
-import link.alpine.Jasper.util.CommandType;
 import link.alpine.Jasper.util.EmbedUI;
+import link.alpinia.SlashComLib.CommandClass;
+import link.alpinia.SlashComLib.CommandInfo;
+import link.alpinia.SlashComLib.CommandType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -115,16 +116,28 @@ public class SettingCommand extends CommandClass {
         // For those looking here for inspiration, you CANNOT mix options and subcommands. You can only have one or the other.
 
         CommandInfo ci = new CommandInfo("view", "Shows the current value for the setting provided.", CommandType.SUBCOMMAND);
-        ci.addOption("name", "The name of the setting to display", OptionType.STRING, true);
+        OptionData od = new OptionData(OptionType.STRING, "name", "The name of the setting to display", true);
+        od.addChoice("JOINROLE", "JOINROLE");
+        od.addChoice("WELCOMECHANNEL", "WELCOMECHANNEL");
+        od.addChoice("MODCHANNEL","MODCHANNEL");
+        ci.addOption(od);
         ci2.addSubcommand(ci);
 
         CommandInfo ci3 = new CommandInfo("set", "sets a setting for the guild you are in", CommandType.SUBCOMMAND);
-        ci3.addOption("name", "The name of the setting to modify", OptionType.STRING, true);
+        OptionData od2 = new OptionData(OptionType.STRING, "name", "The name of the setting to display", true);
+        od2.addChoice("JOINROLE", "JOINROLE");
+        od2.addChoice("WELCOMECHANNEL", "WELCOMECHANNEL");
+        od2.addChoice("MODCHANNEL","MODCHANNEL");
+        ci3.addOption(od2);
         ci3.addOption("value", "The value to set the setting to", OptionType.STRING, true);
         ci2.addSubcommand(ci3);
 
         CommandInfo ci4 = new CommandInfo("clear", "reverts a setting back to its default value", CommandType.SUBCOMMAND);
-        ci4.addOption("name", "Name of the setting to clear", OptionType.STRING, true);
+        OptionData od3 = new OptionData(OptionType.STRING, "name", "The name of the setting to display", true);
+        od3.addChoice("JOINROLE", "JOINROLE");
+        od3.addChoice("WELCOMECHANNEL", "WELCOMECHANNEL");
+        od3.addChoice("MODCHANNEL","MODCHANNEL");
+        ci4.addOption(od3);
         ci2.addSubcommand(ci4);
 
         CommandInfo ci5 = new CommandInfo("settings", "displays all settings available for the guild.", CommandType.COMMAND);

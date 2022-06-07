@@ -1,10 +1,10 @@
 package link.alpine.Jasper.command.utility;
 
-import link.alpine.Jasper.command.CommandClass;
-import link.alpine.Jasper.util.CommandInfo;
-import link.alpine.Jasper.util.CommandType;
 import link.alpine.Jasper.util.EmbedUI;
 import link.alpine.Jasper.util.LoggingManager;
+import link.alpinia.SlashComLib.CommandClass;
+import link.alpinia.SlashComLib.CommandInfo;
+import link.alpinia.SlashComLib.CommandType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -15,7 +15,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static link.alpine.Jasper.util.LoggingManager.slashLog;
 
 /**
  * Helpful Search Command (Uses DDG API)

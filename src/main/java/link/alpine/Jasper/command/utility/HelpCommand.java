@@ -1,10 +1,10 @@
 package link.alpine.Jasper.command.utility;
 
 import link.alpine.Jasper.Jasper;
-import link.alpine.Jasper.command.CommandClass;
-import link.alpine.Jasper.util.CommandInfo;
-import link.alpine.Jasper.util.CommandType;
 import link.alpine.Jasper.util.EmbedUI;
+import link.alpinia.SlashComLib.CommandClass;
+import link.alpinia.SlashComLib.CommandInfo;
+import link.alpinia.SlashComLib.CommandType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -39,9 +39,9 @@ public class HelpCommand extends CommandClass {
                     sb.append("**").append(cname).append("** - __").append(cdesc).append("__\n");
                     if(ci.hasOptions()) {
                         for (String opt : ci.getOptions().keySet()) {
-                            sb.append("-> **").append(opt).append("** `").append(ci.getOptions().get(opt).name())
-                                    .append("` *").append(ci.getOptionDescriptions().get(opt)).append("*");
-                            if (ci.getOptionRequirements().get(opt)) {
+                            sb.append("-> **").append(opt).append("** `").append(ci.getOptions().get(opt).getName())
+                                    .append("` *").append(ci.getOptions().get(opt).getDescription()).append("*");
+                            if (ci.getOptions().get(opt).isRequired()) {
                                 sb.append(" __***[REQUIRED]***__");
                             }
                             sb.append("\n");
@@ -53,9 +53,9 @@ public class HelpCommand extends CommandClass {
                             sb.append("-> **").append(subc).append("** *").append(subCommand.getDescription()).append("*\n");
                             if (subCommand.hasOptions()) {
                                 for (String opt : subCommand.getOptions().keySet()) {
-                                    sb.append("--> **").append(opt).append("** `").append(subCommand.getOptions().get(opt).name())
-                                            .append("` *").append(subCommand.getOptionDescriptions().get(opt)).append("*");
-                                    if (subCommand.getOptionRequirements().get(opt)) {
+                                    sb.append("--> **").append(opt).append("** `").append(subCommand.getOptions().get(opt).getName())
+                                            .append("` *").append(subCommand.getOptions().get(opt).getDescription()).append("*");
+                                    if (subCommand.getOptions().get(opt).isRequired()) {
                                         sb.append(" __***[REQUIRED]***__");
                                     }
                                     sb.append("\n");

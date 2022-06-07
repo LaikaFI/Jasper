@@ -8,13 +8,13 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import link.alpine.Jasper.command.CommandClass;
 import link.alpine.Jasper.model.audio.AudioInfo;
 import link.alpine.Jasper.model.audio.AudioPlayerSendHandler;
 import link.alpine.Jasper.model.audio.TrackManager;
-import link.alpine.Jasper.util.CommandInfo;
-import link.alpine.Jasper.util.CommandType;
 import link.alpine.Jasper.util.EmbedUI;
+import link.alpinia.SlashComLib.CommandClass;
+import link.alpinia.SlashComLib.CommandInfo;
+import link.alpinia.SlashComLib.CommandType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -110,7 +110,7 @@ public class MusicCommand extends CommandClass {
                             try {
                                 FileUtils.write(qFile, sb.toString(), "UTF-8", false);
                                 e.getHook().sendMessage("**Queue was too large to put into text, linked file below contains all songs queued.").queue();
-                                e.getHook().sendFile(qFile, qFile.getName(), null).queue();
+                                e.getHook().sendFile(qFile, qFile.getName()).queue();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }

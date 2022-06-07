@@ -12,7 +12,7 @@ import java.awt.Color;
 public abstract class EmbedUI {
 
     // Strings
-    public static String BRAND = Jasper.instance.name +  " - ";
+    public static String BRAND = Jasper.instance.footer;
     public static final String RESPONSE_PRIVILEGES = " Insufficient privileges.";
 
     // Colors

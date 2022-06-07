@@ -1,21 +1,19 @@
 package link.alpine.Jasper;
 
-import link.alpine.Jasper.command.CommandClass;
-import link.alpine.Jasper.command.CommandRegistrar;
 import link.alpine.Jasper.model.JasperDB;
 import link.alpine.Jasper.model.ServerManager;
-import link.alpine.Jasper.util.CommandInfo;
 import link.alpine.Jasper.util.EmbedUI;
 import link.alpine.Jasper.util.LoggingManager;
 import link.alpine.Jasper.listener.MainListener;
 import link.alpine.Jasper.listener.SkynetListener;
+import link.alpinia.SlashComLib.CommandClass;
+import link.alpinia.SlashComLib.CommandRegistrar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -43,11 +41,13 @@ public class Jasper {
 
     public YamlConfiguration yamlConfiguration = new YamlConfiguration();
 
-    public String footer = EmbedUI.BRAND + "1.0.0-rel";
-
     public String name = "Jasper";
 
+    public String footer = name + " - " + "1.0.0-rel";
+
     public static Jasper instance;
+
+    private CommandRegistrar registrar;
 
     public static JDA JDA;
 
@@ -80,13 +80,16 @@ public class Jasper {
         LoggingManager.info("Starting Jasper.");
 
         // All commands to be loaded on startup!
-        activeCommands = new CommandRegistrar().getCommandClasses();
+        registrar = new CommandRegistrar();
+        activeCommands = registrar.getCommandClasses("link.alpine.Jasper.command");
 
         // Ensuring the configuration file is generated and/or exists.
         if (!CONFIG_FILE.exists()) {
             try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("config.yml")) {
                 // Save the default config
                 Files.copy(is, CONFIG_FILE.toPath());
+                LoggingManager.info("Default Configuration saved to run directory. You will need to modify this before running the bot.");
+                return;
             } catch (Exception ex) {
                 LoggingManager.warn("Failed to create the configuration file. Stopping. (" + CONFIG_FILE.getAbsolutePath() + ")");
                 ex.printStackTrace();
@@ -170,7 +173,8 @@ public class Jasper {
             return;
         }
 
-        registerAllCommands();
+        //todo command registry
+        registrar.registerCommands(JDA, activeCommands);
         LoggingManager.info("Finished registering commands.");
 
         var eb = new EmbedBuilder()
@@ -181,64 +185,8 @@ public class Jasper {
         JDA.getTextChannelById(config.getLogChannel()).sendMessageEmbeds(eb.build()).queue();
     }
 
-    /**
-     * Quick method to register commands in all servers.
-     */
-    private void registerAllCommands() {
-        // Registers slash commands.
-        LoggingManager.info("Registering commands for guilds.");
-        int i = 0;
-        for(Guild guild : JDA.getGuilds()) {
-            registerForGuild(guild);
-            i++;
-        }
-        LoggingManager.info("Registered commands for " + i + " guilds.");
-
-        // Registers the event listeners for those commands.
-        for(CommandClass cmd : activeCommands) {
-            JDA.addEventListener(cmd);
-        }
-    }
-
-    /**
-     * Registers all bot commands with the guild provided
-     * @param guild - guild to have commands provided to
-     */
-    public void registerForGuild(Guild guild) {
-        LoggingManager.debug("Registering commands for guild [" + guild.getName() + ":" + guild.getId() + "]");
-        int i = 0;
-        int j = 0;
-        for(CommandClass cmd : activeCommands) {
-            for(CommandInfo ci : cmd.getSlashCommandInfo()) {
-                var cca = guild.upsertCommand(ci.getName(), ci.getDescription());
-                i++;
-                if(ci.hasSubCommands()) {
-                    for (String name : ci.getSubCommands().keySet()) {
-                        var si = ci.getSubCommands().get(name);
-                        var sd = new SubcommandData(si.getName(), si.getDescription());
-                        for (String option : si.getOptions().keySet()) {
-                            sd.addOption(si.getOptions().get(option), option, si.getOptionDescriptions().get(option), si.getOptionRequirements().get(option));
-                        }
-                        cca.addSubcommands(sd);
-                    }
-                }
-                if(ci.hasOptions()) {
-                    for(String name : ci.getOptions().keySet()) {
-                        // Any intelligent IDE will rage about the option not being used, it's added to the action then executed later, don't edit without reason.
-                        cca.addOption(ci.getOptions().get(name), name, ci.getOptionDescriptions().get(name), ci.getOptionRequirements().get(name));
-                    }
-                }
-                // Push w/ modifications.
-                //trace("Command: " + ci.getName() + " registration on " + guild.getId() + " completed.");
-                try {
-                    cca.queue();
-                } catch (Exception ex) {
-                    // Only time this should occur is when a server does not have the proper scope.
-                    LoggingManager.error("Failed to queue command for RestAction.");
-                }
-            }
-        }
-        LoggingManager.debug("Registered " + i + " commands for guild [" + guild.getId() + "]");
+    public void registerForGuild(Guild g) {
+        registrar.registerForGuild(g, activeCommands);
     }
 
     // Gets the active database.
